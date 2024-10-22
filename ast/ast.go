@@ -51,13 +51,21 @@ func (i *Identifier) expressionNode() 			{}
 func (i *Identifier) TokenLiteral() string 	{ return i.Token.Literal }
 func (i *Identifier) String() string 				{ return i.Value }
 
+type StringLiteral struct {
+	Token token.Token
+	Value string
+}
+func (sl *StringLiteral) expressionNode() 			{}
+func (sl *StringLiteral) TokenLiteral() string 	{ return sl.Token.Literal }
+func (sl *StringLiteral) String() string 				{ return sl.Token.Literal }
+
 type ExpressionStatement struct {
 	Token token.Token 
 	Expression Expression
 }
-func (es *ExpressionStatement) statementNode(){}
-func (es *ExpressionStatement) TokenLiteral() string { return es.Token.Literal }
-func (es *ExpressionStatement) String() string {
+func (es *ExpressionStatement) statementNode()				{}
+func (es *ExpressionStatement) TokenLiteral() string 	{ return es.Token.Literal }
+func (es *ExpressionStatement) String() string 				{
 	if es.Expression != nil {
 		return es.Expression.String()
 	}
@@ -233,6 +241,46 @@ func (ce *CallExpression) String() string {
 	out.WriteString("(")
 	out.WriteString(strings.Join(args, ", "))
 	out.WriteString(")")
+
+	return out.String()
+}
+
+type ArrayLiteral struct {
+	Token token.Token // '[' token 
+	Elements []Expression
+}
+func (al *ArrayLiteral) expressionNode() {}
+func (al *ArrayLiteral) TokenLiteral() string { return al.Token.Literal }
+func (al *ArrayLiteral) String() string {
+	var out bytes.Buffer
+
+	elements := []string{}
+	for _, el := range al.Elements {
+		elements = append(elements, el.String())
+	}
+
+	out.WriteString("[")
+	out.WriteString(strings.Join(elements, ", "))
+	out.WriteString("]")
+
+	return out.String()
+}
+
+type IndexExpression struct {
+	Token token.Token // '[' token
+	Left Expression
+	Index Expression
+}
+func (ie *IndexExpression) expressionNode() {}
+func (ie *IndexExpression) TokenLiteral() string { return ie.Token.Literal }
+func (ie *IndexExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(ie.Left.String())
+	out.WriteString("[")
+	out.WriteString(ie.Index.String())
+	out.WriteString("])")
 
 	return out.String()
 }

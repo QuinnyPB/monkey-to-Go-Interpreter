@@ -25,6 +25,8 @@ func Start(in io.Reader, out io.Writer) {
 		}
 
 		line := scanner.Text()
+		
+		
 		l := lexer.New(line)
 		p := parser.New(l)
 		
@@ -43,7 +45,7 @@ func Start(in io.Reader, out io.Writer) {
 }
 
 func printParserErrors(out io.Writer, errors []string) {
-	io.WriteString(out, "--------------===============---------------\n")
+	io.WriteString(out, "================\n")
 	io.WriteString(out, "The following errors were encountered:\n")
 	io.WriteString(out, " parser errors:\n")
 	for _, msg := range errors {
