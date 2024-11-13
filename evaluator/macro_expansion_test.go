@@ -21,7 +21,7 @@ func TestDefineMacro(t *testing.T) {
 	DefineMacros(program, env)
 
 	if len(program.Statements) != 2 {
-		t.Fatalf("program.Statements != 2, got=%d", len(program.Statements))3
+		t.Fatalf("program.Statements != 2, got=%d", len(program.Statements))
 	}
 
 	_, ok := env.Get("number")
@@ -78,6 +78,20 @@ func TestExpandMacros(t *testing.T) {
 		reverse(2 + 2, 10 - 5);
 		`,
 		`(10 - 5) - (2 + 2)`,
+		},
+		{
+			`
+			let unless = macro(condition, consequence, alternative) {
+				quote(if (!(unquote(condition))) {
+					unquote(consequence);
+				} else {
+					unquote(alternative);
+				});
+			};
+
+			unless(10 > 5, puts("not greater"), puts("greater"));
+			`,
+			`if (!(10 > 5)) { puts("not greater") } else { puts("greater") }`,
 		},
 	}
 
