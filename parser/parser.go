@@ -400,34 +400,8 @@ func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
 	return exp
 }
 
-// parses all arguments of a called function
-// DEPRECATED: replicated and repalaced by parseExpressionList()
-// func (p *Parser) parseCallArguments() []ast.Expression {
-// 	args := []ast.Expression{}
-
-// 	if p.peekTokenIs(token.RPAREN) {
-// 		p.nextToken()
-// 		return args
-// 	}
-
-// 	p.nextToken()
-// 	args = append(args, p.parseExpression(LOWEST))
-
-// 	for p.peekTokenIs(token.COMMA) {
-// 		p.nextToken()
-// 		p.nextToken()
-// 		args = append(args, p.parseExpression(LOWEST))
-// 	}
-
-// 	if !p.expectPeek(token.RPAREN) {
-// 		return nil
-// 	}
-
-// 	return args
-// }
-
 func (p *Parser) parseStringLiteral() ast.Expression {
-	return &ast.StringLiteral{Token: p.curToken, Value: p.curToken.Literal }
+	return &ast.StringLiteral{Token: p.curToken, Value: p.curToken.Literal}
 }
 
 func (p *Parser) parseArrayLiteral() ast.Expression {
@@ -521,3 +495,4 @@ func (p *Parser) parseMacroLiteral() ast.Expression {
 
 	return lit
 }
+

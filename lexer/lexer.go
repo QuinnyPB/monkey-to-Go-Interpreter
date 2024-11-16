@@ -147,14 +147,48 @@ func (l *Lexer) peekChar() byte {
 	}
 }
 
-// TODO: Add support for character escaping (pg 155)
 func (l *Lexer) readString() string {
-	position := l.position + 1
+	// transforming string to rune allows for correctly swapping out intended escape characters with their corresponding coutnerparts in go 
+	var result []rune
+
 	for {
-		l.readChar()
+		l.readChar() // initial read skips over quote
+
 		if l.ch == '"' || l.ch == 0 {
 			break
 		}
+
+		// if escape char
+		if l.ch == '\\' {
+			l.readChar()
+			switch l.ch {
+			case 'a': 		// Alert or bell 
+				result = append(result, '\a')
+			case 'b':			// Backspace
+				result = append(result, '\b')
+			case 't':			// Horizontal tab
+				result = append(result, '\t')
+			case 'n':			// Line feed or newline
+				result = append(result, '\n')
+			case 'f':			// Form feed
+				result = append(result, '\f')
+			case 'r':			// Carraige return
+				result = append(result, '\r')
+			case 'v':   	// Vertical tab
+				result = append(result, '\v')
+			case '\'':		// Single quote
+				result = append(result, '\'')
+			case '"':			// double quote
+				result = append(result, '"')
+			// invalid char. TODO: issue error warning against invalid esc_char
+			default:
+				result = append(result, '\\', rune(l.ch))
+			}
+		} else {
+			// normal char
+			result = append(result, rune(l.ch))		
+		}
 	}
-	return l.input[position:l.position]
+	
+	return string(result)
 }

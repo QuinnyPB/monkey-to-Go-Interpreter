@@ -366,6 +366,20 @@ func TestStringConcatenation(t *testing.T) {
 	}
 }
 
+func TestStringEscFunctions(t *testing.T) {
+	input := `"Hello\nWorld!"`
+
+	evaluated := testEval(input)
+	str, ok := evaluated.(*object.String)
+	if !ok {
+		t.Fatalf("object is not String. got=%T (%+v)", evaluated, evaluated)
+	}
+
+	if str.Value != "Hello\nWorld!" {
+		t.Errorf("string has wrong value. want=%q, got=%q", "Hello\nWorld!", str.Value)
+	}
+}
+
 func TestBuiltinFunctions(t *testing.T) {
 	tests := []struct {
 		input string
