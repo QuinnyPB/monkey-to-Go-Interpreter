@@ -13,6 +13,8 @@ const (
 	// Identifiers + literals
 	IDENT  = "IDENT" // add, foobar, x, y, ...
 	INT    = "INT"   // 1343456
+	UINT   = "UINT"
+	FLOAT  = "FLOAT"
 	STRING = "STRING"
 
 	// Operators
@@ -38,6 +40,7 @@ const (
 	RBRACE    = "}"
 	LBRACKET  = "["
 	RBRACKET  = "]"
+	DECIMAL   = "."
 
 	// Keywords
 	FUNCTION = "FUNCTION"
@@ -53,6 +56,9 @@ const (
 var keywords = map[string]TokenType{
 	"fn":     FUNCTION,
 	"let":    LET,
+	"int":    INT,
+	"uint":   UINT,
+	"float":  FLOAT,
 	"true":   TRUE,
 	"false":  FALSE,
 	"if":     IF,

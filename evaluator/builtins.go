@@ -6,6 +6,7 @@ import (
 )
 
 var builtins = map[string]*object.Builtin{
+	// returns length of array
 	"len": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
@@ -22,6 +23,7 @@ var builtins = map[string]*object.Builtin{
 			}
 		},
 	},
+	// returns firsrt element in array
 	"first": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
@@ -39,6 +41,7 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		}, 
 	},
+	// returns last element in array 
 	"last": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
@@ -57,6 +60,7 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		}, 
 	},
+	// returns array without first element 
 	"rest": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
@@ -77,6 +81,7 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		},
 	},
+	// appends an element onto end of array
 	"push": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 2 {
@@ -96,6 +101,7 @@ var builtins = map[string]*object.Builtin{
 			return &object.Array{Elements: newArr}
 		},
 	},
+	// prints object/text to console
 	"puts": &object.Builtin{
 		Fn: func(args ...object.Object) object.Object  {
 			for _, arg := range args {
@@ -105,4 +111,14 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		},
 	},
+	// returns typeof inspected object
+	// "typeof": &object.Builtin{
+	// 	Fn: func(args ...object.Object) object.Object {
+	// 		if len(args) > 1 {
+	// 			return newError("typeof() takes only 1 argument")
+	// 		}
+
+	// 		return args[0].Type()
+	// 	},
+	// },
 }
